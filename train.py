@@ -24,19 +24,19 @@ def visualize_attention_scores(model, epoch, save_path="./attention_scores"):
         plt.figure(figsize=(12, 5))
 
         plt.subplot(1, 2, 1)
-        plt.hist(attention_scores_fc1, bins=50, alpha=0.7, color=\'blue\')
-        plt.title(f\'Attention Scores for FC1 (Epoch {epoch})\')
-        plt.xlabel(\'Attention Score\')
-        plt.ylabel(\'Frequency\')
+        plt.hist(attention_scores_fc1, bins=50, alpha=0.7, color='blue')
+        plt.title(f'Attention Scores for FC1 (Epoch {epoch})')
+        plt.xlabel('Attention Score')
+        plt.ylabel('Frequency')
 
         plt.subplot(1, 2, 2)
-        plt.hist(attention_scores_fc2, bins=50, alpha=0.7, color=\'green\')
-        plt.title(f\'Attention Scores for FC2 (Epoch {epoch})\')
-        plt.xlabel(\'Attention Score\')
-        plt.ylabel(\'Frequency\')
+        plt.hist(attention_scores_fc2, bins=50, alpha=0.7, color='green')
+        plt.title(f'Attention Scores for FC2 (Epoch {epoch})')
+        plt.xlabel('Attention Score')
+        plt.ylabel('Frequency')
 
         plt.tight_layout()
-        plt.savefig(f\"{save_path}/epoch_{epoch}_attention_scores.png\")
+        plt.savefig(f"{save_path}/epoch_{epoch}_attention_scores.png")
         plt.close()
 
 def train_model(model, train_loader, val_loader, epochs, learning_rate, device):
@@ -91,15 +91,15 @@ def get_mnist_dataloaders(batch_size=64):
         transforms.Normalize((0.1307,), (0.3081,))
     ])
 
-    train_dataset = datasets.MNIST(\'./data\', train=True, download=True, transform=transform)
-    val_dataset = datasets.MNIST(\'./data\', train=False, download=True, transform=transform)
+    train_dataset = datasets.MNIST('./data', train=True, download=True, transform=transform)
+    val_dataset = datasets.MNIST('./data', train=False, download=True, transform=transform)
 
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
     return train_loader, val_loader
 
-if __name__ == \'__main__\':
+if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
