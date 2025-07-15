@@ -1,12 +1,13 @@
 import torch.nn as nn
 
 class AttentionModule(nn.Module):
-    def __init__(self, num_weights):
+    def __init__(self, num_weights, hidden_dim=128):
         super(AttentionModule, self).__init__()
         self.num_weights = num_weights
-        self.fc1 = nn.Linear(num_weights, num_weights // 2)
+        # Use a fixed hidden dimension instead of num_weights // 2
+        self.fc1 = nn.Linear(num_weights, hidden_dim)
         self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(num_weights // 2, num_weights)
+        self.fc2 = nn.Linear(hidden_dim, num_weights)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, weights):

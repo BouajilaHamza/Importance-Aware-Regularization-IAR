@@ -3,13 +3,24 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-
-import matplotlib.pyplot as plt
+import logging
 import os
+from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('training.log'),
+        logging.StreamHandler()
+    ]
+)
 
 from models.mlp import AttentiveMLP
 
 def visualize_attention_scores(model, epoch, save_path="./attention_scores"):
+    logging.info(f"Visualizing attention scores for epoch {epoch}")
     model.eval()
     with torch.no_grad():
         # Get attention scores for fc1 and fc2
@@ -99,9 +110,15 @@ def get_mnist_dataloaders(batch_size=64):
     return train_loader, val_loader
 
 if __name__ == '__main__':
+    # Log start of training
+    logging.info("="*50)
+    logging.info("Starting Training Session")
+    logging.info("="*50)
+    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Using device: {device}")
-
+    logging.info(f"Using device: {device}")
+    
+    # Model configuration
     input_dim = 28 * 28  # MNIST image size
     hidden_dim = 256
     output_dim = 10      # Number of MNIST classes
@@ -109,10 +126,25 @@ if __name__ == '__main__':
     epochs = 10
     learning_rate = 0.001
     batch_size = 64
-
+    
+    logging.info(f"\nModel Configuration:")
+    logging.info(f"Input Dimension: {input_dim}")
+    logging.info(f"Hidden Dimension: {hidden_dim}")
+    logging.info(f"Output Dimension: {output_dim}")
+    logging.info(f"Regularization Lambda: {lambda_reg}")
+    logging.info(f"Epochs: {epochs}")
+    logging.info(f"Learning Rate: {learning_rate}")
+    logging.info(f"Batch Size: {batch_size}")
+    
+    # Create directories if they don't exist
+    os.makedirs("./attention_scores", exist_ok=True)
+    os.makedirs("./checkpoints", exist_ok=True)
+    
     train_loader, val_loader = get_mnist_dataloaders(batch_size)
-
+    
     model = AttentiveMLP(input_dim, hidden_dim, output_dim, lambda_reg).to(device)
+    logging.info(f"Model initialized and moved to {device}")
+    
     train_model(model, train_loader, val_loader, epochs, learning_rate, device)
 
 
