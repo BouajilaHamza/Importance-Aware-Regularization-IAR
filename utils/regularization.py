@@ -1,5 +1,4 @@
 import torch
-import torch.nn as nn
 
 def attentive_l2_regularization(weights, attention_scores, lambda_reg):
     # L_reg = lambda * sum_i (1 - a_i) * w_i^2

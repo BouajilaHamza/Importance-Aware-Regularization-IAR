@@ -5,10 +5,9 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
 import matplotlib.pyplot as plt
-import numpy as np
 import os
 
-from attentive_regularization.models.mlp import AttentiveMLP
+from models.mlp import AttentiveMLP
 
 def visualize_attention_scores(model, epoch, save_path="./attention_scores"):
     model.eval()

@@ -1,8 +1,7 @@
 
-import torch
 import torch.nn as nn
-from attentive_regularization.modules.attention import AttentionModule
-from attentive_regularization.utils.regularization import attentive_l2_regularization
+from modules.attention import AttentionModule
+from utils.regularization import attentive_l2_regularization
 
 class AttentiveMLP(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim, lambda_reg):
